@@ -230,7 +230,7 @@ This API follows a modular monolith architecture with the following modules:
 - `analytics` - Performance analytics and reporting
 - `matches` - Match data and statistics
 - `schedules` - Event and schedule management
-- `vod_reviews` - Video review and timestamp management (with VideoAI analysis integration)
+- `vod_reviews` - Video review and timestamp management
 - `team_goals` - Goal setting and tracking
 - `riot_integration` - Riot Games API integration
 - `competitive` - PandaScore integration, pro matches, draft analysis
@@ -298,8 +298,6 @@ graph TB
             VODController[VOD Reviews Controller]
             VodReviewModel[VOD Review Model]
             VodTimestampModel[VOD Timestamp Model]
-            VodAnalysisJob[Vod Analysis Job\nAnalyzeVodJob]
-            VideoAiClient[VideoAiClient\nHTTP + JWT]
         end
 
         subgraph "Team Goals Module"
@@ -353,7 +351,6 @@ graph TB
     subgraph "External Services"
         RiotAPI[Riot Games API]
         PandaScoreAPI[PandaScore API]
-        VideoAI[ProStaff VideoAI\nprostaff-videoai:8001\nyt-dlp + FFmpeg]
     end
 
     Client -->|HTTP/JSON| CORS
@@ -392,9 +389,6 @@ graph TB
     SchedulesController --> ScheduleModel
     VODController --> VodReviewModel
     VodReviewModel --> VodTimestampModel
-    VODController --> VodAnalysisJob
-    VodAnalysisJob --> VideoAiClient
-    VideoAiClient -->|HTTP + JWT| VideoAI
     GoalsController --> TeamGoalModel
     AnalyticsController --> PerformanceService
     AnalyticsController --> KDAService
@@ -423,17 +417,11 @@ graph TB
     Sidekiq -- Uses --> Redis
 
     style Client fill:#e1f5ff
-    style Traefik fill:#1d63ed,color:#fff
-    style API1 fill:#4a90d9,color:#fff
-    style API2 fill:#4a90d9,color:#fff
-    style PostgreSQL fill:#336791,color:#fff
-    style Redis fill:#d82c20,color:#fff
-    style RiotAPI fill:#eb0029,color:#fff
-    style PandaScoreAPI fill:#ff6b35,color:#fff
-    style Sidekiq fill:#b1003e,color:#fff
-    style VideoAI fill:#2d6a4f,color:#fff
-    style VodAnalysisJob fill:#b1003e,color:#fff
-    style VideoAiClient fill:#40916c,color:#fff
+    style PostgreSQL fill:#336791
+    style Redis fill:#d82c20
+    style RiotAPI fill:#eb0029
+    style PandaScoreAPI fill:#ff6b35
+    style Sidekiq fill:#b1003e
 ```
 
 
